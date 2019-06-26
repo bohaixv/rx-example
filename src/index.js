@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
+import VueRx from 'vue-rx'
 
+Vue.use(VueRx)
 
 const root = document.createElement('div')
 root.id = 'root'
