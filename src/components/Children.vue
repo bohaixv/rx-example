@@ -9,7 +9,7 @@ export default {
   name: "Children",
   methods: {
     childCilck() {
-      this.$emit("child-click");
+      this.$emit("child-click", 2);
     }
   }
 };

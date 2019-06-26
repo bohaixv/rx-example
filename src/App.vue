@@ -3,7 +3,7 @@
     <button v-stream:click="{subject:plus$,data:'demo data'}">this is a stream button</button>
     <p>{{ count }}</p>
     <button @click="countCustom++">custom button</button>
-    <children ref="childrenTest"/>
+    <children ref="childrenTest" @child-click="subHundler"/>
     <p>{{childClick}}</p>
   </div>
 </template>
@@ -25,9 +25,7 @@ export default {
   },
   domStreams: ["plus$"],
   created() {
-    this.$eventToObservable("child-click")
-      .pipe(map(data => data))
-      .subscribe(v => console.log(v));
+    this.$subscribeTo(interval(1000), v => console.log(v));
   },
   subscriptions() {
     // console.log(this.plus$);
@@ -44,8 +42,11 @@ export default {
         scan((pre, total) => pre + total, 0)
       ),
       demoData: this.plus$.pipe(pluck("data")),
-      customTest: this.$watchAsObservable("countCustom").pipe(pluck("newValue"))
-      // childClick: this.$eventToObservable("child-click").pipe(map(data => data))
+      customTest: this.$watchAsObservable("countCustom").pipe(
+        pluck("newValue")
+      ),
+      childClick: interval(1000),
+      formData: this.$createObservableMethod("subHundler")
     };
   },
   methods: {
